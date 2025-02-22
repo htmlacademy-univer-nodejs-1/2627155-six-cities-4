@@ -13,4 +13,4 @@ export const printHelp = () => {
  ${chalk.green('--help')}:                      ${chalk.magenta('# печатает этот текст')}
  ${chalk.green('--import')} <path>:             ${chalk.magenta('# импортирует данные из TSV')}
 `);
-}
+};

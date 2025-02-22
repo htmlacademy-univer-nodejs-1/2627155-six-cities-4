@@ -7,15 +7,13 @@ export const printVersion = () => {
 
   fs.readFile(packageJsonPath, 'utf-8', (err, data) => {
     if (err) {
-      console.log('Не удалось прочитать файл package.json');
-      process.exit(1);
+      throw new Error('Не удалось прочитать файл package.json');
     }
     try {
       const packageJson = JSON.parse(data);
       console.log(packageJson.version);
     } catch (parseError) {
-      console.log('Ошибка при парсинге файла package.json');
-      process.exit(1);
+      throw new Error('Ошибка при парсинге файла package.json');
     }
   });
 };
