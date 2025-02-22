@@ -1,8 +1,11 @@
 import * as fs from 'node:fs';
+import { join, dirname } from 'node:path';
 
 
 export const printVersion = () => {
-  fs.readFile('package.json', 'utf-8', (err, data) => {
+  const packageJsonPath = join(dirname(new URL(import.meta.url).pathname), '..', '..', 'package.json');
+
+  fs.readFile(packageJsonPath, 'utf-8', (err, data) => {
     if (err) {
       console.log('Не удалось прочитать файл package.json');
       process.exit(1);

@@ -5,7 +5,7 @@ export const printHelp = () => {
   console.log(`
 Программа для подготовки данных для REST API сервера.
 
-Пример: ./src/cli.ts --<${chalk.blue('command')}> [${chalk.green('--arguments')}]
+Пример: cli.ts --<${chalk.blue('command')}> [${chalk.green('--arguments')}]
 
 Команды:
 
