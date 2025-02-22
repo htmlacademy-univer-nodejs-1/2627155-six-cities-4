@@ -20,8 +20,9 @@
     "sourceMap": true,
     "outDir": "./dist",
     "emitDecoratorMetadata": true,
+    "allowImportingTsExtensions": true,
     "types": [
-      "node",
+      "node"
     ],
     "lib": [
       "ESNext"
