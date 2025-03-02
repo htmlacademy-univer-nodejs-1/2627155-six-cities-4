@@ -14,7 +14,8 @@
     "lint": "eslint src/ --ext .ts",
     "compile": "tsc -p tsconfig.json",
     "clean": "rimraf dist",
-    "ts": "ts-node"
+    "ts": "ts-node",
+    "json-server": "npx json-server ./mocks/mock-server-data.json"
   },
   "devDependencies": {
     "@types/node": "18.17.17",
@@ -32,6 +33,8 @@
     "npm": ">=8"
   },
   "dependencies": {
-    "chalk": "^5.4.1"
+    "chalk": "^5.4.1",
+    "got": "^14.4.6",
+    "json-server": "^1.0.0-beta.3"
   }
 }
