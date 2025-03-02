@@ -1,0 +1,186 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "name": "John",
+      "email": "john.doe@example.com",
+      "profilePicture": "https://example.com/images/john_avatar.jpg",
+      "password": "password123",
+      "type": "ordinary"
+    },
+    {
+      "id": "2",
+      "name": "Jane",
+      "email": "jane.doe@example.com",
+      "profilePicture": "https://example.com/images/jane_avatar.jpg",
+      "password": "securepass",
+      "type": "pro"
+    },
+    {
+      "id": "3",
+      "name": "Alice",
+      "email": "alice.smith@example.com",
+      "profilePicture": null,
+      "password": "alice2021",
+      "type": "ordinary"
+    },
+    {
+      "id": "4",
+      "name": "Bob",
+      "email": "bob.brown@example.com",
+      "profilePicture": "https://example.com/images/bob_avatar.jpg",
+      "password": "bob12345",
+      "type": "ordinary"
+    },
+    {
+      "id": "5",
+      "name": "Charlie",
+      "email": "charlie.white@example.com",
+      "profilePicture": "https://example.com/images/charlie_avatar.jpg",
+      "password": "charlie321",
+      "type": "pro"
+    }
+  ],
+  "offers": [
+    {
+      "name": "Cozy Apartment in Paris",
+      "description": "A beautiful and cozy apartment in the heart of Paris with all modern amenities.",
+      "postedAt": "2025-03-01T00:00:00.000Z",
+      "city": "Paris",
+      "preview": "https://example.com/images/preview_paris_apartment.jpg",
+      "housingPhotos": [
+        "https://example.com/images/photo1_paris_apartment.jpg",
+        "https://example.com/images/photo2_paris_apartment.jpg",
+        "https://example.com/images/photo3_paris_apartment.jpg",
+        "https://example.com/images/photo4_paris_apartment.jpg",
+        "https://example.com/images/photo5_paris_apartment.jpg",
+        "https://example.com/images/photo6_paris_apartment.jpg"
+      ],
+      "isPremium": true,
+      "isFavorite": false,
+      "rating": 4.5,
+      "housingType": "apartment",
+      "roomsNumber": 3,
+      "guestsNumber": 4,
+      "rentalCost": 1200,
+      "conveniences": ["Air conditioning", "Fridge", "Washer"],
+      "authorId": "1",
+      "location": {
+        "latitude": 48.85661,
+        "longitude": 2.351499
+      }
+    },
+    {
+      "name": "Luxurious House in Cologne",
+      "description": "A spacious and luxurious house with a private garden located in the beautiful city of Cologne.",
+      "postedAt": "2025-03-02T00:00:00.000Z",
+      "city": "Cologne",
+      "preview": "https://example.com/images/preview_cologne_house.jpg",
+      "housingPhotos": [
+        "https://example.com/images/photo1_cologne_house.jpg",
+        "https://example.com/images/photo2_cologne_house.jpg",
+        "https://example.com/images/photo3_cologne_house.jpg",
+        "https://example.com/images/photo4_cologne_house.jpg",
+        "https://example.com/images/photo5_cologne_house.jpg",
+        "https://example.com/images/photo6_cologne_house.jpg"
+      ],
+      "isPremium": false,
+      "isFavorite": true,
+      "rating": 5.0,
+      "housingType": "house",
+      "roomsNumber": 5,
+      "guestsNumber": 8,
+      "rentalCost": 2500,
+      "conveniences": ["Breakfast", "Air conditioning", "Fridge", "Washer"],
+      "authorId": "2",
+      "location": {
+        "latitude": 50.938361,
+        "longitude": 6.959974
+      }
+    },
+    {
+      "name": "Central Room in Brussels",
+      "description": "A modern room located in the city center, perfect for short stays.",
+      "postedAt": "2025-03-01T00:00:00.000Z",
+      "city": "Brussels",
+      "preview": "https://example.com/images/preview_brussels_room.jpg",
+      "housingPhotos": [
+        "https://example.com/images/photo1_brussels_room.jpg",
+        "https://example.com/images/photo2_brussels_room.jpg",
+        "https://example.com/images/photo3_brussels_room.jpg",
+        "https://example.com/images/photo4_brussels_room.jpg",
+        "https://example.com/images/photo5_brussels_room.jpg",
+        "https://example.com/images/photo6_brussels_room.jpg"
+      ],
+      "isPremium": false,
+      "isFavorite": true,
+      "rating": 4.0,
+      "housingType": "room",
+      "roomsNumber": 1,
+      "guestsNumber": 2,
+      "rentalCost": 600,
+      "conveniences": ["Laptop friendly workspace", "Towels", "Fridge"],
+      "authorId": "3",
+      "location": {
+        "latitude": 50.846557,
+        "longitude": 4.351697
+      }
+    },
+    {
+      "name": "Comfortable Hotel in Amsterdam",
+      "description": "A cozy hotel with excellent amenities, ideal for both business and leisure travelers.",
+      "postedAt": "2025-03-02T00:00:00.000Z",
+      "city": "Amsterdam",
+      "preview": "https://example.com/images/preview_amsterdam_hotel.jpg",
+      "housingPhotos": [
+        "https://example.com/images/photo1_amsterdam_hotel.jpg",
+        "https://example.com/images/photo2_amsterdam_hotel.jpg",
+        "https://example.com/images/photo3_amsterdam_hotel.jpg",
+        "https://example.com/images/photo4_amsterdam_hotel.jpg",
+        "https://example.com/images/photo5_amsterdam_hotel.jpg",
+        "https://example.com/images/photo6_amsterdam_hotel.jpg"
+      ],
+      "isPremium": true,
+      "isFavorite": false,
+      "rating": 4.2,
+      "housingType": "hotel",
+      "roomsNumber": 10,
+      "guestsNumber": 20,
+      "rentalCost": 4000,
+      "conveniences": ["Breakfast", "Air conditioning", "Washer"],
+      "authorId": "4",
+      "location": {
+        "latitude": 52.370216,
+        "longitude": 4.895168
+      }
+    },
+    {
+      "name": "Stylish Apartment in Hamburg",
+      "description": "A modern apartment located in the vibrant area of Hamburg, offering comfort and style.",
+      "postedAt": "2025-03-03T00:00:00.000Z",
+      "city": "Hamburg",
+      "preview": "https://example.com/images/preview_hamburg_apartment.jpg",
+      "housingPhotos": [
+        "https://example.com/images/photo1_hamburg_apartment.jpg",
+        "https://example.com/images/photo2_hamburg_apartment.jpg",
+        "https://example.com/images/photo3_hamburg_apartment.jpg",
+        "https://example.com/images/photo4_hamburg_apartment.jpg",
+        "https://example.com/images/photo5_hamburg_apartment.jpg",
+        "https://example.com/images/photo6_hamburg_apartment.jpg"
+      ],
+      "isPremium": false,
+      "isFavorite": false,
+      "rating": 3.8,
+      "housingType": "apartment",
+      "roomsNumber": 2,
+      "guestsNumber": 4,
+      "rentalCost": 900,
+      "conveniences": ["Air conditioning", "Fridge", "Towels"],
+      "authorId": "5",
+      "location": {
+        "latitude": 53.550341,
+        "longitude": 10.000654
+      }
+    }
+  ]
+}
