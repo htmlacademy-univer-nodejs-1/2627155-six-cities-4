@@ -12,5 +12,6 @@ export const printHelp = () => {
  ${chalk.green('--version')}:                   ${chalk.magenta('# выводит номер версии')}
  ${chalk.green('--help')}:                      ${chalk.magenta('# печатает этот текст')}
  ${chalk.green('--import')} <path>:             ${chalk.magenta('# импортирует данные из TSV')}
+ ${chalk.green('--generate')} <n> <path> <url> ${chalk.magenta('# генерирует произвольное количество тестовых данных')}
 `);
 };
