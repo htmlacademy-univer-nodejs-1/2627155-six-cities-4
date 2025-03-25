@@ -1,4 +1,4 @@
-import { City, Convenience, Coordinates, HousingType, UserType } from '../types.ts';
+import { City, Convenience, Coordinates, HousingType, UserType } from '../common/types.js';
 
 export type UserDto = {
   id: string,

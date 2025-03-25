@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import readline from 'node:readline';
-import { Offer, User, Coordinates } from '../types.js';
+import { Offer, User, Coordinates } from '../common/types.js';
 
 
 const parseOfferTSVRow = (row: string) => {

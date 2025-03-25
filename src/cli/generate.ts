@@ -1,8 +1,8 @@
 import fs from 'node:fs';
 import got from 'got';
-import { Offer, User } from '../types.ts';
-import { OfferDTO, UserDto } from './types.ts';
-import { getRandomArbitraryInt, getRandomInt } from '../utils.ts';
+import { Offer, User } from '../common/types.js';
+import { OfferDTO, UserDto } from './types.js';
+import { getRandomArbitraryInt, getRandomInt } from '../common/utils.js';
 
 const getRandomizedUser = (user: User) => {
   const emailParts = user.email.split('@');

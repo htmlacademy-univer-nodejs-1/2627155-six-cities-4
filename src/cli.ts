@@ -1,9 +1,9 @@
 #!/usr/bin/env -S node --loader ts-node/esm
 
-import { importData } from './cli/import.ts';
-import { printVersion } from './cli/version.ts';
-import { printHelp } from './cli/help.ts';
-import { generateRandomOffersTSV } from './cli/generate.ts';
+import { importData } from './cli/import.js';
+import { printVersion } from './cli/version.js';
+import { printHelp } from './cli/help.js';
+import { generateRandomOffersTSV } from './cli/generate.js';
 
 const main = async () => {
   const args = process.argv.slice(2);
