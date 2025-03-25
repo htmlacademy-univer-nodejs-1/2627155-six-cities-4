@@ -1,4 +1,4 @@
-export type UserType = 'обычный' | 'pro'
+export type UserType = 'ordinary' | 'pro'
 
 export type City = 'Paris' | 'Cologne' | 'Brussels' | 'Amsterdam' | 'Hamburg' | 'Dusseldorf'
 
@@ -14,18 +14,18 @@ export type Coordinates = {
 export type User = {
   name: string;
   email: string;
-  profilePictureUrl?: string;
+  profilePicture?: URL;
   password: string;
   type: UserType;
 }
 
-export type RentalOffer = {
+export type Offer = {
   name: string;
   description: string;
   postedAt: Date;
   city: City;
-  previewUrl: string;
-  housingPhotoUrls: string[];
+  preview: URL;
+  housingPhotos: URL[];
   isPremium: boolean;
   isFavorite: boolean;
   rating: number;

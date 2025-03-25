@@ -20,7 +20,7 @@
     "sourceMap": true,
     "outDir": "./dist",
     "emitDecoratorMetadata": true,
-    "allowImportingTsExtensions": true,
+    "allowImportingTsExtensions": false,
     "types": [
       "node"
     ],
