@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import got from 'got';
 import { Offer, User } from '../common/types.js';
 import { OfferDTO, UserDto } from './types.js';
-import { getRandomArbitraryInt, getRandomInt } from '../common/utils.js';
+import { getRandomArbitraryInt, getRandomInt } from '../libs/random/index.js';
 
 const getRandomizedUser = (user: User) => {
   const emailParts = user.email.split('@');

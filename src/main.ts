@@ -1,9 +1,9 @@
 import 'reflect-metadata';
 import { Container } from 'inversify';
-import { Logger, PinoLogger } from './common/logger/index.js';
+import { Logger, PinoLogger } from './libs/logger/index.js';
 import { Application } from './rest/index.js';
-import { Config, RestConfig, RestSchema } from './common/config/index.js';
-import { Component } from './common/component.js';
+import { Config, RestConfig, RestSchema } from './rest/config/index.js';
+import { Component } from './rest/component.js';
 
 
 async function bootstrap() {
