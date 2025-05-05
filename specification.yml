@@ -1,0 +1,265 @@
+openapi: 3.0.0
+info:
+  title: Сервис аренды жилья
+  description: API для управления предложениями по аренде жилья
+  version: 1.0.0
+paths:
+  /users:
+    post:
+      summary: Создание нового пользователя
+      operationId: createUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCreateRequest'
+      responses:
+        '201':
+          description: Пользователь успешно создан
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Ошибка валидации данных
+  /login:
+    post:
+      summary: Вход в систему
+      operationId: login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas.LoginRequest'
+      responses:
+        '200':
+          description: Успешная авторизация
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas.LoginResponse'
+        '401':
+          description: Неверные учетные данные
+  /offers:
+    get:
+      summary: Получение списка предложений
+      operationId: getOffers
+      parameters:
+        - name: limit
+          in: query
+          description: Количество предложений для возврата
+          required: false
+          schema:
+            type: integer
+            default: 60
+        - name: city
+          in: query
+          description: Город для фильтрации предложений
+          required: false
+          schema:
+            type: string
+        - name: premium
+          in: query
+          description: Флаг для фильтрации премиальных предложений
+          required: false
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: Список предложений
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas.Offer'
+  /offers/{offerId}:
+    get:
+      summary: Получение детальной информации о предложении
+      operationId: getOfferDetails
+      parameters:
+        - name: offerId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Детальная информация о предложении
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas.OfferDetail'
+  /offers:
+    post:
+      summary: Создание нового предложения
+      operationId: createOffer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas.OfferCreateRequest'
+      responses:
+        '201':
+          description: Предложение успешно создано
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas.Offer'
+        '400':
+          description: Ошибка валидации данных
+        '401':
+          description: Неавторизованный доступ
+  /offers/{offerId}:
+    put:
+      summary: Редактирование существующего предложения
+      operationId: updateOffer
+      parameters:
+        - name: offerId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas.OfferUpdateRequest'
+      responses:
+        '200':
+          description: Предложение успешно обновлено
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas.Offer'
+        '400':
+          description: Ошибка валидации данных
+        '401':
+          description: Неавторизованный доступ
+        '404':
+          description: Предложение не найдено
+  /offers/{offerId}:
+    delete:
+      summary: Удаление предложения
+      operationId: deleteOffer
+      parameters:
+        - name: offerId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Предложение успешно удалено
+        '401':
+          description: Неавторизованный доступ
+        '404':
+          description: Предложение не найдено
+  /offers/{offerId}/comments:
+    get:
+      summary: Получение списка комментариев к предложению
+      operationId: getComments
+      parameters:
+        - name: offerId
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          description: Количество комментариев для возврата
+          required: false
+          schema:
+            type: integer
+            default: 50
+      responses:
+        '200':
+          description: Список комментариев
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas.Comment'
+  /offers/{offerId}/comments:
+    post:
+      summary: Добавление нового комментария
+      operationId: addComment
+      parameters:
+        - name: offerId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas.CommentCreateRequest'
+      responses:
+        '201':
+          description: Комментарий успешно добавлен
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas.Comment'
+        '400':
+          description: Ошибка валидации данных
+        '401':
+          description: Неавторизованный доступ
+  /users/me:
+    get:
+      summary: Получение информации о текущем пользователе
+      operationId: getCurrentUser
+      responses:
+        '200':
+          description: Информация о пользователе
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas.User'
+        '401':
+          description: Неавторизованный доступ
+components:
+  schemas:
+    UserCreateRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+        name:
+          type: string
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        email:
+          type: string
+          format: email
+        name:
+          type: string
+    LoginRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+    LoginResponse:
+      type: object
+      properties:
+        token:
+          type: string
+    OfferCreateRequest:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+::contentReference[oaicite:4]{index=4}
