@@ -7,6 +7,7 @@ export type RestSchema = {
   HOST: string;
   PORT: number;
   SALT: string;
+  MONGO_URL: string;
 }
 
 export const configRestSchema = convict<RestSchema>({
@@ -28,4 +29,10 @@ export const configRestSchema = convict<RestSchema>({
     env: 'SALT',
     default: null
   },
+  MONGO_URL : {
+    doc: 'MongoDB connection link',
+    format: String,
+    env: 'MONGO_URL',
+    default: null
+  }
 });

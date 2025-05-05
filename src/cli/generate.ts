@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import got from 'got';
-import { Offer, User } from '../common/types.js';
+import { Offer, User } from '../types/index.js';
 import { OfferDTO, UserDto } from './types.js';
 import { getRandomArbitraryInt, getRandomInt } from '../libs/random/index.js';
 
@@ -19,7 +19,7 @@ const getRandomizedUser = (user: User) => {
 const getRandomizedOffer = (offer: Offer) => ({
   name: offer.name + getRandomInt(),
   description: offer.description,
-  postedAt: offer.postedAt,
+  createdAt: offer.createdAt,
   city: offer.city,
   preview: offer.preview,
   housingPhotos: offer.housingPhotos,
@@ -36,9 +36,9 @@ const getRandomizedOffer = (offer: Offer) => ({
 } as Offer);
 
 
-const getUsers = async (url: URL) => await got(`${url}/users`).json<UserDto[]>();
+const getUsers = async (url: string) => await got(`${url}/users`).json<UserDto[]>();
 
-const getOffers = async (url: URL) => await got(`${url}/offers`).json<OfferDTO[]>();
+const getOffers = async (url: string) => await got(`${url}/offers`).json<OfferDTO[]>();
 
 const mapOfferDtoIntoOffer = (offer: OfferDTO, users: UserDto[]) => ({
   ...offer,
@@ -49,7 +49,7 @@ const mapOfferIntoTSV = (offer: Offer) => {
   const fields = [
     offer.name,
     offer.description,
-    offer.postedAt,
+    offer.createdAt,
     offer.city,
     offer.preview,
     offer.housingPhotos.join(','),
@@ -72,7 +72,7 @@ const mapOfferIntoTSV = (offer: Offer) => {
   return fields.join('\t');
 };
 
-export const generateRandomOffersTSV = async (n: number, path: string, url: URL) => {
+export const generateRandomOffersTSV = async (n: number, path: string, url: string) => {
   if (n < 0) {
     throw new Error('n не может быть отрицательным');
   }

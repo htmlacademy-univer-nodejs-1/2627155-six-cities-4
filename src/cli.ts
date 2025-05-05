@@ -23,8 +23,8 @@ const main = async () => {
       break;
 
     case '--import':
-      if (args[1]) {
-        importData(args[1]);
+      if (args[1] && args[2]) {
+        await importData(args[1], args[2]);
       } else {
         console.log('Укажите путь к файлу для импорта.');
       }
@@ -32,7 +32,7 @@ const main = async () => {
 
     case '--generate':
       if (args[1] && args[2] && args[3]) {
-        await generateRandomOffersTSV(parseInt(args[1], 10), args[2], new URL(args[3]));
+        await generateRandomOffersTSV(parseInt(args[1], 10), args[2], args[3]);
       } else {
         console.log('Укажите аргументы в формате <n> <path> <url>');
       }

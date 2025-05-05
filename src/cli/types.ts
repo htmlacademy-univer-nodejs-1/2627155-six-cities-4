@@ -1,10 +1,10 @@
-import { City, Convenience, Coordinates, HousingType, UserType } from '../common/types.js';
+import { City, Convenience, Coordinates, HousingType, UserType } from '../types/index.js';
 
 export type UserDto = {
   id: string,
   name: string;
   email: string;
-  profilePicture?: URL;
+  profilePicture?: string;
   password: string;
   type: UserType;
 }
@@ -13,10 +13,10 @@ export type OfferDTO = {
   id: string,
   name: string;
   description: string;
-  postedAt: Date;
+  createdAt: Date;
   city: City;
-  preview: URL;
-  housingPhotos: URL[];
+  preview: string;
+  housingPhotos: string[];
   isPremium: boolean;
   isFavorite: boolean;
   rating: number;

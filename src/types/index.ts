@@ -14,7 +14,7 @@ export type Coordinates = {
 export type User = {
   name: string;
   email: string;
-  profilePicture?: URL;
+  profilePicture?: string;
   password: string;
   type: UserType;
 }
@@ -22,10 +22,10 @@ export type User = {
 export type Offer = {
   name: string;
   description: string;
-  postedAt: Date;
+  createdAt: Date;
   city: City;
-  preview: URL;
-  housingPhotos: URL[];
+  preview: string;
+  housingPhotos: string[];
   isPremium: boolean;
   isFavorite: boolean;
   rating: number;

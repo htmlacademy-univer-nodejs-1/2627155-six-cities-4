@@ -1,18 +1,19 @@
 import fs from 'node:fs';
 import readline from 'node:readline';
-import { Offer, User, Coordinates } from '../common/types.js';
+import { Offer, User, Coordinates } from '../types/index.js';
+import { connect, disconnect } from 'mongoose';
+import { MongooseOfferRepository, MongooseUserRepository } from '../db/repos/index.js';
 
 
 const parseOfferTSVRow = (row: string) => {
   const values = row.trim().split('\t');
-  console.log(values);
   return {
     name: values[0],
     description: values[1],
-    postedAt: new Date(values[2]),
+    createdAt: new Date(values[2]),
     city: values[3],
-    preview: new URL(values[4]),
-    housingPhotos: values[5].split(',').map((x) => new URL(x.trim())),
+    preview: values[4],
+    housingPhotos: values[5].split(',').map((x) => x.trim()),
     isPremium: values[6] === 'true',
     isFavorite: values[7] === 'true',
     rating: Number(values[8]),
@@ -24,7 +25,7 @@ const parseOfferTSVRow = (row: string) => {
     author: {
       name: values[14],
       email: values[15],
-      profilePicture: values[16] ? new URL(values[16]) : null,
+      profilePicture: values[16],
       password: values[17],
       type: values[18],
     } as User,
@@ -35,7 +36,13 @@ const parseOfferTSVRow = (row: string) => {
   } as Offer;
 };
 
-export const importData = (path: string) => {
+export const importData = async (path: string, mongoUrl: string) => {
+  console.log(`Подключение к MongoDB по пути ${mongoUrl}`);
+  await connect(mongoUrl);
+  console.log('Подключено к MongoDB');
+  const offerRepository = new MongooseOfferRepository();
+  const userRepository = new MongooseUserRepository();
+
   const stream = fs.createReadStream(path, 'utf-8');
   const rl = readline.createInterface({
     input: stream,
@@ -43,14 +50,22 @@ export const importData = (path: string) => {
     terminal: false
   });
 
+  const offers: Offer[] = [];
+
   rl.on('line', (line) => {
     if (line.trim()) {
-      const rentalOffer = parseOfferTSVRow(line);
-      console.log(rentalOffer);
+      offers.push(parseOfferTSVRow(line));
     }
   });
 
-  rl.on('close', () => {
+  rl.on('close', async () => {
+    for (const offer of offers) {
+      const createdUser = await userRepository.create(offer.author);
+      console.log(`Создан пользователь ${createdUser.id}`);
+      const createdOffer = await offerRepository.create({ authorId: createdUser.id, ...offer });
+      console.log(`Создано предложение ${createdOffer.id}`);
+    }
+    disconnect();
     console.log('Импорт данных завершен');
   });
 
