@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import readline from 'node:readline';
-import { Offer, User, Coordinates } from '../types/index.js';
+import { Offer, User, Coordinates } from './types.js';
 import { connect, disconnect } from 'mongoose';
 import { MongooseOfferRepository, MongooseUserRepository } from '../db/repos/index.js';
 

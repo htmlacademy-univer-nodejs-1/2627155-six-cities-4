@@ -8,8 +8,6 @@ export interface OfferDocument extends Document {
   preview: string;
   housingPhotos: string[];
   isPremium: boolean;
-  isFavorite: boolean;
-  rating: number;
   housingType: HousingType;
   roomsNumber: number;
   guestsNumber: number;
@@ -33,8 +31,6 @@ const offerSchema = new Schema<OfferDocument>({
   preview: { type: String, required: true },
   housingPhotos: [{ type: String, required: true }],
   isPremium: { type: Boolean, required: true },
-  isFavorite: { type: Boolean, required: true },
-  rating: { type: Number, required: true },
   housingType: { type: String, enum: ['apartment', 'house', 'room', 'hotel'], required: true },
   roomsNumber: { type: Number, required: true },
   guestsNumber: { type: Number, required: true },

@@ -1,10 +1,11 @@
 import { injectable } from 'inversify';
 import { UserDocument, UserModel } from '../models/index.js';
 import { UserRepository } from './user.repository.interface.js';
+import { User } from '../../types/index.js';
 
 @injectable()
 export class MongooseUserRepository implements UserRepository {
-  async create(data: Partial<UserDocument>): Promise<UserDocument> {
+  async create(data: User): Promise<UserDocument> {
     const user = new UserModel(data);
     return await user.save();
   }

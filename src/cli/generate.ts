@@ -1,7 +1,6 @@
 import fs from 'node:fs';
 import got from 'got';
-import { Offer, User } from '../types/index.js';
-import { OfferDTO, UserDto } from './types.js';
+import { Offer, OfferDTO, User, UserDto } from './types.js';
 import { getRandomArbitraryInt, getRandomInt } from '../libs/random/index.js';
 
 const getRandomizedUser = (user: User) => {
