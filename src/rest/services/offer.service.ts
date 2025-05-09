@@ -1,27 +1,48 @@
 import { inject, injectable } from 'inversify';
 import { Component } from '../component.js';
-import { CommentRepository, OfferRepository, UserRepository } from '../../db/repos/index.js';
-import { CreateOfferDTO, EditOfferDTO, GetOfferDto, GetUserDto, ListOfferDTO } from '../dto/index.js';
+import { CommentRepository, OfferRepository } from '../../db/repos/index.js';
+import { CreateOfferDTO, EditOfferDTO, GetOfferDto, ListOfferDTO } from '../dto/index.js';
 
 @injectable()
 export class OfferService {
   constructor(
     @inject(Component.OfferRepository) private readonly offerRepository: OfferRepository,
     @inject(Component.CommentRepository) private readonly commentRepository: CommentRepository,
-    @inject(Component.UserRepository) private readonly userRepository: UserRepository,
   ) { }
 
-  async create(userId: string, dto: CreateOfferDTO): Promise<string> {
+  async create(userId: string, dto: CreateOfferDTO): Promise<GetOfferDto> {
     const offer = await this.offerRepository.create({ authorId: userId, ...dto });
-    return offer.id;
+    return {
+      ...offer,
+      id: offer.id,
+      isFavorite: false,
+      rating: 0,
+      commentsCount: 0,
+      authorId: userId.toString()
+    };
   }
 
-  async edit(userId: string, offerId: string, dto: EditOfferDTO): Promise<string | null> {
+  async edit(userId: string, offerId: string, dto: EditOfferDTO): Promise<GetOfferDto | null> {
     const offer = await this.offerRepository.edit(offerId, dto);
-    return offer?.id;
+    if (offer === null) {
+      return null;
+    }
+    const [isFavorite, rating, commentsCount] = await Promise.all([
+      this.offerRepository.isFavorite(offer.id, userId),
+      this.commentRepository.getAverageRatingByOfferId(offer.id),
+      this.commentRepository.countByOfferId(offer.id),
+    ]);
+    return {
+      ...offer,
+      id: offer.id.toString(),
+      authorId: offer.authorId.toString(),
+      isFavorite,
+      rating: rating ?? 0,
+      commentsCount
+    };
   }
 
-  async delete(userId: string, offerId: string): Promise<boolean> {
+  async delete(_userId: string, offerId: string): Promise<boolean> {
     const deleted = await this.offerRepository.delete(offerId);
     await this.commentRepository.deleteByOfferId(offerId);
     return deleted;
@@ -38,16 +59,11 @@ export class OfferService {
       ]);
 
       return {
-        rentalCost: offer.rentalCost,
-        name: offer.name,
-        housingType: offer.housingType,
+        ...offer,
+        id: offer.id,
         isFavorite,
-        createdAt: offer.createdAt,
-        city: offer.city,
-        preview: offer.preview,
-        isPremium: offer.isPremium,
         rating: rating ?? 0,
-        commentsCount,
+        commentsCount
       };
     }));
   }
@@ -63,16 +79,11 @@ export class OfferService {
       ]);
 
       return {
-        rentalCost: offer.rentalCost,
-        name: offer.name,
-        housingType: offer.housingType,
+        ...offer,
+        id: offer.id,
         isFavorite,
-        createdAt: offer.createdAt,
-        city: offer.city,
-        preview: offer.preview,
-        isPremium: offer.isPremium,
         rating: rating ?? 0,
-        commentsCount,
+        commentsCount
       };
     }));
   }
@@ -87,16 +98,11 @@ export class OfferService {
       ]);
 
       return {
-        rentalCost: offer.rentalCost,
-        name: offer.name,
-        housingType: offer.housingType,
+        ...offer,
+        id: offer.id,
         isFavorite: true,
-        createdAt: offer.createdAt,
-        city: offer.city,
-        preview: offer.preview,
-        isPremium: offer.isPremium,
         rating: rating ?? 0,
-        commentsCount,
+        commentsCount
       };
     }));
   }
@@ -116,43 +122,19 @@ export class OfferService {
       return null;
     }
 
-    const user = await this.userRepository.findById(userId);
-    if (user === null) {
-      return null;
-    }
-
-    const author: GetUserDto = {
-      name: user.name,
-      email: user.email,
-      type: user.type,
-    };
-
     const [isFavorite, rating, commentsCount] = await Promise.all([
       this.offerRepository.isFavorite(offer.id, userId),
       this.commentRepository.getAverageRatingByOfferId(offer.id),
       this.commentRepository.countByOfferId(offer.id),
     ]);
 
-    const offerDto: GetOfferDto = {
-      name: offer.name,
-      description: offer.description,
-      createdAt: offer.createdAt,
-      city: offer.city,
-      preview: offer.preview,
-      housingPhotos: offer.housingPhotos,
-      isPremium: offer.isPremium,
+    return {
+      ...offer,
+      id: offer.id,
       isFavorite,
       rating: rating ?? 0,
-      housingType: offer.housingType,
-      roomsNumber: offer.roomsNumber,
-      guestsNumber: offer.guestsNumber,
-      rentalCost: offer.rentalCost,
-      conveniences: offer.conveniences,
-      author,
-      location: offer.location,
+      authorId: offer.authorId.toString(),
       commentsCount,
     };
-
-    return offerDto;
   }
 }

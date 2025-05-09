@@ -1,9 +1,7 @@
-import { GetUserDto } from './get.user.dto.js';
-
 export class GetCommentDto {
+  id!: string;
   text!: string;
   createdAt!: Date;
   rating!: number;
-  author!: GetUserDto;
+  authorId!: string;
 }
-

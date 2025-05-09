@@ -6,6 +6,11 @@ import { Config, RestConfig, RestSchema } from './rest/config/index.js';
 import { Component } from './rest/component.js';
 import { MongooseCommentRepository, MongooseOfferRepository, MongooseUserRepository, OfferRepository, UserRepository } from './db/repos/index.js';
 import { CommentRepository } from './db/repos/index.js';
+import { CommentService, OfferService } from './rest/services/index.js';
+import { OfferController } from './rest/controllers/index.js';
+import { ExceptionFilter } from './rest/errors/exception.filter.interface.js';
+import { AppExceptionFilter } from './rest/errors/app.exception.filter.js';
+import { JwtMiddleware } from './rest/middleware/index.js';
 
 
 async function bootstrap() {
@@ -15,7 +20,12 @@ async function bootstrap() {
   container.bind<Config<RestSchema>>(Component.Config).to(RestConfig).inSingletonScope();
   container.bind<OfferRepository>(Component.OfferRepository).to(MongooseOfferRepository).inSingletonScope();
   container.bind<UserRepository>(Component.UserRepository).to(MongooseUserRepository).inSingletonScope();
-  container.bind<CommentRepository>(Component.CommentRepository).to(MongooseCommentRepository);
+  container.bind<CommentRepository>(Component.CommentRepository).to(MongooseCommentRepository).inSingletonScope();
+  container.bind<OfferService>(Component.OfferService).to(OfferService).inSingletonScope();
+  container.bind<CommentService>(Component.CommentService).to(CommentService).inSingletonScope();
+  container.bind<OfferController>(Component.OfferController).to(OfferController).inSingletonScope();
+  container.bind<ExceptionFilter>(Component.ExceptionFilter).to(AppExceptionFilter).inSingletonScope();
+  container.bind<JwtMiddleware>(Component.JwtMiddleware).to(JwtMiddleware).inSingletonScope();
 
   const application = container.get<Application>(Component.RestApplication);
   await application.init();

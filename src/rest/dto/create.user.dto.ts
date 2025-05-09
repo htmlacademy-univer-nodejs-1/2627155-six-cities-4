@@ -1,9 +1,24 @@
-import { UserType } from '../../types/index.js';
+import { IsString, IsEmail, IsOptional, MinLength, MaxLength, IsIn } from 'class-validator';
+import { UserType } from '../../types/user.js';
 
 export class CreateUserDto {
-  name!: string;
-  email!: string;
-  password!: string;
-  profilePicture?: string;
-  type!: UserType;
+  @IsString()
+  @MinLength(1)
+  @MaxLength(15)
+    name!: string;
+
+  @IsEmail()
+    email!: string;
+
+  @IsOptional()
+  @IsString()
+    profilePicture?: string;
+
+  @IsString()
+  @MinLength(6)
+  @MaxLength(12)
+    password!: string;
+
+  @IsIn(['ordinary', 'pro'])
+    type!: UserType;
 }

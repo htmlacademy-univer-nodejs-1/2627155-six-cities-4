@@ -6,6 +6,9 @@ import { Types } from 'mongoose';
 
 @injectable()
 export class MongooseCommentRepository implements CommentRepository {
+  async exists(id: string): Promise<boolean> {
+    return await this.findById(id) !== null;
+  }
 
   async listLastByOfferId(offerId: string, limit: number): Promise<CommentDocument[]> {
     return await CommentModel.find({ offer: offerId })

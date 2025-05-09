@@ -8,6 +8,7 @@ export type RestSchema = {
   PORT: number;
   SALT: string;
   MONGO_URL: string;
+  JWT_SECRET: string;
 }
 
 export const configRestSchema = convict<RestSchema>({
@@ -33,6 +34,12 @@ export const configRestSchema = convict<RestSchema>({
     doc: 'MongoDB connection link',
     format: String,
     env: 'MONGO_URL',
+    default: null
+  },
+  JWT_SECRET: {
+    doc: 'JWT secret',
+    format: String,
+    env: 'JWT_SECRET',
     default: null
   }
 });

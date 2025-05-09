@@ -24,3 +24,7 @@ export type Offer = {
   location: Coordinates;
   authorId: string;
 }
+
+export type WithOfferId = {
+  offerId: string;
+}

@@ -5,6 +5,10 @@ import { User } from '../../types/index.js';
 
 @injectable()
 export class MongooseUserRepository implements UserRepository {
+  async exists(id: string): Promise<boolean> {
+    return await this.findById(id) !== null;
+  }
+
   async create(data: User): Promise<UserDocument> {
     const user = new UserModel(data);
     return await user.save();

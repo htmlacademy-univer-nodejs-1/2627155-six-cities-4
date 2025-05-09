@@ -7,3 +7,7 @@ export type User = {
   password: string;
   type: UserType;
 }
+
+export type WithUserId = {
+  userId: string;
+}

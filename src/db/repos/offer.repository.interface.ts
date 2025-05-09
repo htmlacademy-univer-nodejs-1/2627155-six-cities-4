@@ -1,7 +1,8 @@
 import { Offer } from '../../types/index.js';
 import { OfferDocument } from '../models/index.js';
+import { Repository } from './repository.interface.js';
 
-export interface OfferRepository {
+export interface OfferRepository extends Repository {
   create(data: Offer): Promise<OfferDocument>;
   edit(id: string, data: Partial<Offer>): Promise<OfferDocument | null>;
   findById(id: string): Promise<OfferDocument | null>;

@@ -1,16 +1,70 @@
-import { City, HousingType, Convenience, Coordinates } from '../../types/index.js';
+import { IsOptional, IsString, IsIn, IsUrl, IsArray, IsBoolean, IsInt, Min, Max } from 'class-validator';
+import { City, Convenience, HousingType } from '../../types/index.js';
 
 export class EditOfferDTO {
-  name?: string;
-  description?: string;
-  city?: City;
-  preview?: string;
-  housingPhotos?: string[];
-  isPremium?: boolean;
-  housingType?: HousingType;
-  roomsNumber?: number;
-  guestsNumber?: number;
-  rentalCost?: number;
-  conveniences?: Convenience[];
-  location?: Coordinates;
+  @IsOptional()
+  @IsString()
+    name?: string;
+
+  @IsOptional()
+  @IsString()
+    description?: string;
+
+  @IsOptional()
+  @IsIn(['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'])
+    city?: City;
+
+  @IsOptional()
+  @IsUrl()
+    preview?: string;
+
+  @IsOptional()
+  @IsArray()
+  @IsUrl({}, { each: true })
+    housingPhotos?: string[];
+
+  @IsOptional()
+  @IsBoolean()
+    isPremium?: boolean;
+
+  @IsOptional()
+  @IsIn(['apartment', 'house', 'room', 'hotel'])
+    housingType?: HousingType;
+
+  @IsOptional()
+  @IsInt()
+  @Min(1)
+  @Max(8)
+    roomsNumber?: number;
+
+  @IsOptional()
+  @IsInt()
+  @Min(1)
+  @Max(10)
+    guestsNumber?: number;
+
+  @IsOptional()
+  @IsInt()
+  @Min(100)
+  @Max(100000)
+    rentalCost?: number;
+
+  @IsOptional()
+  @IsArray()
+  @IsIn(
+    [
+      'Breakfast',
+      'Air conditioning',
+      'Laptop friendly workspace',
+      'Baby seat',
+      'Washer',
+      'Towels',
+      'Fridge'
+    ],
+    { each: true }
+  )
+    conveniences?: Convenience[];
+
+  @IsOptional()
+    location?: { latitude: number; longitude: number };
 }

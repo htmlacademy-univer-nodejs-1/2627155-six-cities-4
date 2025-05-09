@@ -1,8 +1,8 @@
 import { City, HousingType, Convenience, Coordinates } from '../../types/index.js';
-import { GetUserDto } from './get.user.dto.js';
 
 
 export class GetOfferDto {
+  id!: string;
   name!: string;
   description!: string;
   createdAt!: Date;
@@ -17,7 +17,7 @@ export class GetOfferDto {
   guestsNumber!: number;
   rentalCost!: number;
   conveniences!: Convenience[];
-  author!: GetUserDto;
+  authorId!: string;
   location!: Coordinates;
   commentsCount!: number;
 }

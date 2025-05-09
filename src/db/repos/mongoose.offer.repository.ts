@@ -6,6 +6,10 @@ import { Types } from 'mongoose';
 
 @injectable()
 export class MongooseOfferRepository implements OfferRepository {
+  async exists(id: string): Promise<boolean> {
+    return await this.findById(id) !== null;
+  }
+
   async create(data: Offer): Promise<OfferDocument> {
     const offer = new OfferModel(data);
     return await offer.save();
