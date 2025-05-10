@@ -1,10 +1,9 @@
 import fs from 'node:fs';
 import got from 'got';
-import { Offer, User } from '../types.ts';
-import { OfferDTO, UserDto } from './types.ts';
-import { getRandomArbitraryInt, getRandomInt } from '../utils.ts';
+import { Offer, OfferDTO, User, UserDto } from './types.js';
+import { getRandomArbitraryInt, getRandomInt } from '../libs/random/index.js';
 
-const getRandomizedUser = (user: User) => {
+const getRandomizedUser = (user: User): User => {
   const emailParts = user.email.split('@');
   const email = `${emailParts[0]}${getRandomInt()}@${emailParts[1]}`;
   return {
@@ -13,13 +12,13 @@ const getRandomizedUser = (user: User) => {
     profilePicture: user.profilePicture,
     password: user.password + getRandomInt(),
     type: getRandomInt() % 2 === 0 ? 'ordinary' : 'pro',
-  } as User;
+  };
 };
 
-const getRandomizedOffer = (offer: Offer) => ({
+const getRandomizedOffer = (offer: Offer): Offer => ({
   name: offer.name + getRandomInt(),
   description: offer.description,
-  postedAt: offer.postedAt,
+  createdAt: offer.createdAt,
   city: offer.city,
   preview: offer.preview,
   housingPhotos: offer.housingPhotos,
@@ -33,23 +32,23 @@ const getRandomizedOffer = (offer: Offer) => ({
   conveniences: offer.conveniences,
   author: getRandomizedUser(offer.author),
   location: offer.location,
-} as Offer);
+});
 
 
-const getUsers = async (url: URL) => await got(`${url}/users`).json<UserDto[]>();
+const getUsers = async (url: string) => await got(`${url}/users`).json<UserDto[]>();
 
-const getOffers = async (url: URL) => await got(`${url}/offers`).json<OfferDTO[]>();
+const getOffers = async (url: string) => await got(`${url}/offers`).json<OfferDTO[]>();
 
-const mapOfferDtoIntoOffer = (offer: OfferDTO, users: UserDto[]) => ({
+const mapOfferDtoIntoOffer = (offer: OfferDTO, users: UserDto[]): Offer => ({
   ...offer,
   author: users.find((user) => user.id === offer.authorId) as User,
-} as Offer);
+});
 
 const mapOfferIntoTSV = (offer: Offer) => {
   const fields = [
     offer.name,
     offer.description,
-    offer.postedAt,
+    offer.createdAt,
     offer.city,
     offer.preview,
     offer.housingPhotos.join(','),
@@ -72,7 +71,7 @@ const mapOfferIntoTSV = (offer: Offer) => {
   return fields.join('\t');
 };
 
-export const generateRandomOffersTSV = async (n: number, path: string, url: URL) => {
+export const generateRandomOffersTSV = async (n: number, path: string, url: string) => {
   if (n < 0) {
     throw new Error('n не может быть отрицательным');
   }

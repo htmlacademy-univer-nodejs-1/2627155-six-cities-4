@@ -1,5 +1,3 @@
-export type UserType = 'ordinary' | 'pro'
-
 export type City = 'Paris' | 'Cologne' | 'Brussels' | 'Amsterdam' | 'Hamburg' | 'Dusseldorf'
 
 export type HousingType = 'apartment' | 'house' | 'room' | 'hotel'
@@ -11,30 +9,22 @@ export type Coordinates = {
   longitude: number;
 }
 
-export type User = {
-  name: string;
-  email: string;
-  profilePicture?: URL;
-  password: string;
-  type: UserType;
-}
-
 export type Offer = {
   name: string;
   description: string;
-  postedAt: Date;
   city: City;
-  preview: URL;
-  housingPhotos: URL[];
+  preview: string;
+  housingPhotos: string[];
   isPremium: boolean;
-  isFavorite: boolean;
-  rating: number;
   housingType: HousingType;
   roomsNumber: number;
   guestsNumber: number;
   rentalCost: number;
   conveniences: Convenience[];
-  author: User;
   location: Coordinates;
+  authorId: string;
 }
 
+export type WithOfferId = {
+  offerId: string;
+}

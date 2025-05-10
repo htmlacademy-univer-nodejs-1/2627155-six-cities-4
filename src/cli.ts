@@ -1,9 +1,9 @@
 #!/usr/bin/env -S node --loader ts-node/esm
 
-import { importData } from './cli/import.ts';
-import { printVersion } from './cli/version.ts';
-import { printHelp } from './cli/help.ts';
-import { generateRandomOffersTSV } from './cli/generate.ts';
+import { importData } from './cli/import.js';
+import { printVersion } from './cli/version.js';
+import { printHelp } from './cli/help.js';
+import { generateRandomOffersTSV } from './cli/generate.js';
 
 const main = async () => {
   const args = process.argv.slice(2);
@@ -23,8 +23,8 @@ const main = async () => {
       break;
 
     case '--import':
-      if (args[1]) {
-        importData(args[1]);
+      if (args[1] && args[2]) {
+        await importData(args[1], args[2]);
       } else {
         console.log('Укажите путь к файлу для импорта.');
       }
@@ -32,7 +32,7 @@ const main = async () => {
 
     case '--generate':
       if (args[1] && args[2] && args[3]) {
-        await generateRandomOffersTSV(parseInt(args[1], 10), args[2], new URL(args[3]));
+        await generateRandomOffersTSV(parseInt(args[1], 10), args[2], args[3]);
       } else {
         console.log('Укажите аргументы в формате <n> <path> <url>');
       }
