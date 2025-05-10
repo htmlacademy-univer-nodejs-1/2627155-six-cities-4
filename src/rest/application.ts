@@ -23,7 +23,12 @@ export class Application {
 
   private registerMiddleware(): void {
     const uploadDir = this.config.get('UPLOADS_DIR');
-    this.app.use('/uploads', express.static(uploadDir));
+    this.app.use('/static', express.static(uploadDir));
+
+    const host = this.config.get('HOST');
+    const port = this.config.get('PORT');
+    this.logger.info(`Serving static on http://${host}:${port}/static`);
+
     this.app.use(express.json());
   }
 
@@ -39,7 +44,6 @@ export class Application {
     const port = this.config.get('PORT');
     const mongoUrl = this.config.get('MONGO_URL');
 
-    this.logger.info(`Get value from env $PORT: ${port}`);
     this.logger.info(`Connecting to MongoDB using link ${mongoUrl}`);
 
     await connect(mongoUrl);

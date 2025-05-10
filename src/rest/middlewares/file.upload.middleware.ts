@@ -24,6 +24,7 @@ export class FileUploadMiddleware implements Middleware {
       if (err instanceof multer.MulterError) {
         return res.status(400).json({ message: 'Multer error occurred during file upload.' });
       } else if (err) {
+        console.log(err);
         return res.status(500).json({ message: 'An unknown error occurred during file upload.' });
       }
       return next();

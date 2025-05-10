@@ -78,7 +78,7 @@ export class UserService {
     return userDto;
   }
 
-  public async uploadProfilePicture(userId: string, fileName: string): Promise<string | null> {
+  public async uploadProfilePicture(userId: string, fileName: string): Promise<string> {
     const user = await this.userRepository.edit(userId, { profilePicture: fileName });
     if (user === null) {
       throw new HttpError(404, 'Not Found');
@@ -86,8 +86,8 @@ export class UserService {
     return this.getProfilePicturePath(user);
   }
 
-  private getProfilePicturePath(user: UserDocument): string | null {
-    return user.profilePicture ? `/uploads/${user.profilePicture}` : null;
+  private getProfilePicturePath(user: UserDocument): string {
+    return user.profilePicture ? `/static/${user.profilePicture}` : '/static/default-profile.jpg';
   }
 
   private async generateJwt(payload: { id: string }): Promise<string> {
