@@ -5,7 +5,10 @@
 /dist/
 /docs/
 .idea/*
+.env
+static/*
 
 .DS_Store
 coverage
 *.log
+.env
