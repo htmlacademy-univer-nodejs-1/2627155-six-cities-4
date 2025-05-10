@@ -13,7 +13,7 @@ export interface UserDocument extends Document {
 
 const userSchema = new Schema<UserDocument>({
   name: { type: String, required: true },
-  email: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
   profilePicture: { type: String },
   password: { type: String, required: true },
   type: { type: String, enum: ['ordinary', 'pro'], required: true }

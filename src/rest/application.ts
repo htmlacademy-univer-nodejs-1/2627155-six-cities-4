@@ -4,9 +4,8 @@ import { Logger } from '../libs/logger/index.js';
 import { Config, RestSchema } from './config/index.js';
 import { Component } from './component.js';
 import { connect } from 'mongoose';
-import { OfferController } from './controllers/index.js';
+import { OfferController, UserController } from './controllers/index.js';
 import { ExceptionFilter } from './errors/exception.filter.interface.js';
-import { JwtMiddleware } from './middleware/index.js';
 
 @injectable()
 export class Application {
@@ -16,20 +15,21 @@ export class Application {
     @inject(Component.Logger) private readonly logger: Logger,
     @inject(Component.Config) private readonly config: Config<RestSchema>,
     @inject(Component.OfferController) private readonly offerController: OfferController,
+    @inject(Component.UserController) private readonly usersController: UserController,
     @inject(Component.ExceptionFilter) private readonly exceptionFilter: ExceptionFilter,
-    @inject(Component.JwtMiddleware) private readonly jwtMiddleware: JwtMiddleware,
   ) {
     this.app = express();
   }
 
   private registerMiddleware(): void {
+    const uploadDir = this.config.get('UPLOADS_DIR');
+    this.app.use('/uploads', express.static(uploadDir));
     this.app.use(express.json());
-    this.app.use(this.jwtMiddleware.authenticate.bind(this.jwtMiddleware));
-    this.app.use(this.exceptionFilter.catch.bind(this.exceptionFilter));
   }
 
   private registerControllers(): void {
     this.app.use(this.offerController.router);
+    this.app.use(this.usersController.router);
   }
 
   public async init() {
@@ -48,6 +48,8 @@ export class Application {
     this.registerMiddleware();
 
     this.registerControllers();
+
+    this.app.use(this.exceptionFilter.catch.bind(this.exceptionFilter));
 
     this.app.listen(port, host, () => {
       this.logger.info(`Server is running on http://${host}:${port}`);

@@ -4,6 +4,6 @@ export class GetUserDto {
   id!: string;
   name!: string;
   email!: string;
-  profilePicture?: string;
+  profilePicture!: string | null;
   type!: UserType;
 }

@@ -6,7 +6,7 @@ convict.addFormats(validator);
 export type RestSchema = {
   HOST: string;
   PORT: number;
-  SALT: string;
+  SALT: number;
   MONGO_URL: string;
   JWT_SECRET: string;
   UPLOADS_DIR: string;
@@ -26,8 +26,8 @@ export const configRestSchema = convict<RestSchema>({
     default: 4000
   },
   SALT: {
-    doc: 'Salt for password hash',
-    format: String,
+    doc: 'Salt rounds for password hash',
+    format: Number,
     env: 'SALT',
     default: null
   },

@@ -1,5 +1,7 @@
-import { IsString, MinLength, MaxLength, IsIn, IsUrl, IsArray, ArrayMinSize, IsBoolean, IsInt, Min, Max } from 'class-validator';
+import { IsString, MinLength, MaxLength, IsIn, IsUrl, IsArray, ArrayMinSize, IsBoolean, IsInt, Min, Max, ValidateNested } from 'class-validator';
 import { City, Convenience, HousingType } from '../../types/index.js';
+import { LocationDto } from './location.dto.js';
+import { Type } from 'class-transformer';
 
 export class CreateOfferDTO {
   @IsString()
@@ -60,5 +62,7 @@ export class CreateOfferDTO {
   )
     conveniences!: Convenience[];
 
-  location!: { latitude: number; longitude: number };
+  @ValidateNested()
+  @Type(() => LocationDto)
+    location!: LocationDto;
 }

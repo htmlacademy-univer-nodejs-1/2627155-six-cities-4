@@ -1,7 +1,7 @@
 import { injectable } from 'inversify';
 import { FavoriteModel, OfferDocument, OfferModel } from '../models/index.js';
 import { OfferRepository } from './offer.repository.interface.js';
-import { Offer } from '../../types/index.js';
+import { City, Offer } from '../../types/index.js';
 import { Types } from 'mongoose';
 
 @injectable()
@@ -44,8 +44,8 @@ export class MongooseOfferRepository implements OfferRepository {
       .exec();
   }
 
-  async listLastPremium(limit: number): Promise<OfferDocument[]> {
-    return await OfferModel.find({ isPremium: true })
+  async listLastPremium(city: City, limit: number): Promise<OfferDocument[]> {
+    return await OfferModel.find({ city, isPremium: true })
       .sort({ createdAt: -1 })
       .limit(limit)
       .exec();

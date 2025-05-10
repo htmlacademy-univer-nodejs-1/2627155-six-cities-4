@@ -11,15 +11,15 @@ export class MongooseCommentRepository implements CommentRepository {
   }
 
   async listLastByOfferId(offerId: string, limit: number): Promise<CommentDocument[]> {
-    return await CommentModel.find({ offer: offerId })
+    return await CommentModel.find({ offerId: offerId })
       .sort({ createdAt: -1 })
       .limit(limit)
       .exec();
   }
 
   async create(data: Comment): Promise<CommentDocument> {
-    const user = new CommentModel(data);
-    return await user.save();
+    const comment = new CommentModel(data);
+    return await comment.save();
   }
 
   async findById(id: string): Promise<CommentDocument | null> {

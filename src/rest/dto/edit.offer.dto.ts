@@ -1,5 +1,7 @@
-import { IsOptional, IsString, IsIn, IsUrl, IsArray, IsBoolean, IsInt, Min, Max } from 'class-validator';
+import { IsOptional, IsString, IsIn, IsUrl, IsArray, IsBoolean, IsInt, Min, Max, ValidateNested } from 'class-validator';
 import { City, Convenience, HousingType } from '../../types/index.js';
+import { Type } from 'class-transformer';
+import { LocationDto } from './location.dto.js';
 
 export class EditOfferDTO {
   @IsOptional()
@@ -66,5 +68,7 @@ export class EditOfferDTO {
     conveniences?: Convenience[];
 
   @IsOptional()
-    location?: { latitude: number; longitude: number };
+  @ValidateNested()
+  @Type(() => LocationDto)
+    location!: LocationDto;
 }
