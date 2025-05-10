@@ -11,6 +11,7 @@ import { OfferController } from './rest/controllers/index.js';
 import { ExceptionFilter } from './rest/errors/exception.filter.interface.js';
 import { AppExceptionFilter } from './rest/errors/app.exception.filter.js';
 import { JwtMiddleware } from './rest/middleware/index.js';
+import { UserService } from './rest/services/user.service.js';
 
 
 async function bootstrap() {
@@ -22,6 +23,7 @@ async function bootstrap() {
   container.bind<UserRepository>(Component.UserRepository).to(MongooseUserRepository).inSingletonScope();
   container.bind<CommentRepository>(Component.CommentRepository).to(MongooseCommentRepository).inSingletonScope();
   container.bind<OfferService>(Component.OfferService).to(OfferService).inSingletonScope();
+  container.bind<UserService>(Component.UserService).to(UserService).inSingletonScope();
   container.bind<CommentService>(Component.CommentService).to(CommentService).inSingletonScope();
   container.bind<OfferController>(Component.OfferController).to(OfferController).inSingletonScope();
   container.bind<ExceptionFilter>(Component.ExceptionFilter).to(AppExceptionFilter).inSingletonScope();

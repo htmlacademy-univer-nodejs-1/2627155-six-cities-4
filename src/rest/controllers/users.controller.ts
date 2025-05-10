@@ -1,37 +1,81 @@
-import { Router, Request, Response } from 'express';
-import { BaseController, Controller } from '../../libs/controller/index.js';
-import { GetUserDto, } from '../dto/index.js';
 
-export class UserController extends BaseController implements Controller {
+import { Request, Response } from 'express';
+import { inject, injectable } from 'inversify';
+
+import { BaseController } from '../../libs/controller/index.js';
+import { ValidateDtoMiddleware } from '../middlewares/dto.middleware.js';
+import { Component } from '../component.js';
+import { UserService } from '../services/user.service.js';
+import { CreateUserDto, LoginDto } from '../dto/index.js';
+import { GetUserDto } from '../dto/index.js';
+import { FileUploadMiddleware } from '../middlewares/file.upload.middleware.js';
+
+@injectable()
+export class UserController extends BaseController {
   public readonly path = '/users';
-  private readonly router = Router();
 
   constructor(
+    @inject(Component.UserService) private readonly userService: UserService,
   ) {
     super();
     this.registerRoutes();
   }
 
-  public registerRoutes(): void {
-    this.router.get(`${this.path}`, this.getUsers.bind(this));
-    this.router.post(`${this.path}`, this.createUser.bind(this));
-    this.router.get(`${this.path}/:userId`, this.getUserDetails.bind(this));
-    this.router.put(`${this.path}/:userId`, this.updateUser.bind(this));
-    this.router.delete(`${this.path}/:userId`, this.deleteUser.bind(this));
+  private registerRoutes(): void {
+    this.bindRoute({
+      method: 'post',
+      path: `${this.path}`,
+      handler: this.createUser.bind(this),
+      middlewares: [new ValidateDtoMiddleware(CreateUserDto)],
+    });
+
+    this.bindRoute({
+      method: 'post',
+      path: '/login',
+      handler: this.login.bind(this),
+      middlewares: [new ValidateDtoMiddleware(LoginDto)],
+    });
+
+    this.bindRoute({
+      method: 'get',
+      path: `${this.path}/me`,
+      handler: this.getCurrentUser.bind(this),
+      middlewares: [],
+    });
+
+    this.bindRoute({
+      method: 'post',
+      path: `${this.path}/avatar`,
+      handler: this.uploadProfilePicture.bind(this),
+      middlewares: [new FileUploadMiddleware()],
+    });
   }
 
-  private async getUsers(_req: Request, _res: Response): Promise<void> {
+  private async createUser(req: Request, res: Response<GetUserDto>) {
+    const user = await this.userService.create(req.body);
+    this.sendCreated(res, user);
   }
 
-  private async createUser(_req: Request, _res: Response<GetUserDto>): Promise<void> {
+  private async login(_req: Request, res: Response<{ token: string }>) {
+    // const token = await this.userService.login(req.body);
+    this.sendOk(res, { token: '' });
   }
 
-  private async getUserDetails(_req: Request, _res: Response<GetUserDto>): Promise<void> {
+  private async getCurrentUser(_req: Request, res: Response) {
+    const userId = res.locals.userId;
+    const user = await this.userService.findById(userId);
+    this.sendOk(res, user);
   }
 
-  private async updateUser(_req: Request, _res: Response<GetUserDto>): Promise<void> {
-  }
+  private async uploadProfilePicture(req: Request, res: Response) {
+    const userId = res.locals.userId;
+    const filePath = req.file?.path;
 
-  private async deleteUser(_req: Request, _res: Response): Promise<void> {
+    if (!filePath) {
+      return this.sendBadRequest(res, 'Файл не был загружен');
+    }
+
+    const avatarUrl = await this.userService.uploadProfilePicture(userId, filePath);
+    this.sendOk(res, { avatarUrl });
   }
 }

@@ -10,10 +10,6 @@ export class CreateUserDto {
   @IsEmail()
     email!: string;
 
-  @IsOptional()
-  @IsString()
-    profilePicture?: string;
-
   @IsString()
   @MinLength(6)
   @MaxLength(12)

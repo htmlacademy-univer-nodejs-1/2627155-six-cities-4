@@ -14,6 +14,14 @@ export class MongooseUserRepository implements UserRepository {
     return await user.save();
   }
 
+  async edit(id: string, data: Partial<User>): Promise<UserDocument | null> {
+    return await UserModel.findByIdAndUpdate(
+      id,
+      data,
+      { new: true }
+    );
+  }
+
   async findById(id: string): Promise<UserDocument | null> {
     return await UserModel.findById(id).exec();
   }

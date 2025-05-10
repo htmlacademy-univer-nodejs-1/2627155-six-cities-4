@@ -9,6 +9,7 @@ export type RestSchema = {
   SALT: string;
   MONGO_URL: string;
   JWT_SECRET: string;
+  UPLOADS_DIR: string;
 }
 
 export const configRestSchema = convict<RestSchema>({
@@ -41,5 +42,11 @@ export const configRestSchema = convict<RestSchema>({
     format: String,
     env: 'JWT_SECRET',
     default: null
+  },
+  UPLOADS_DIR: {
+    doc: 'Path to user uploaded static files',
+    format: String,
+    env: 'UPLOADS_DIR',
+    default: '.uploads/'
   }
 });
