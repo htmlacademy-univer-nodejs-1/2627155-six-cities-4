@@ -1,39 +1,40 @@
 import fs from 'node:fs';
 import readline from 'node:readline';
-import { Offer, User, Coordinates } from './types.js';
+import { Offer, Coordinates, UserType, City } from './types.js';
 import { connect, disconnect } from 'mongoose';
 import { MongooseOfferRepository, MongooseUserRepository } from '../db/repos/index.js';
+import { Convenience, HousingType } from '../types/index.js';
 
 
-const parseOfferTSVRow = (row: string) => {
+const parseOfferTSVRow = (row: string): Offer => {
   const values = row.trim().split('\t');
   return {
     name: values[0],
     description: values[1],
     createdAt: new Date(values[2]),
-    city: values[3],
+    city: values[3] as City,
     preview: values[4],
     housingPhotos: values[5].split(',').map((x) => x.trim()),
     isPremium: values[6] === 'true',
     isFavorite: values[7] === 'true',
     rating: Number(values[8]),
-    housingType: values[9],
+    housingType: values[9] as HousingType,
     roomsNumber: parseInt(values[10], 10),
     guestsNumber: parseInt(values[11], 10),
     rentalCost: Number(values[12]),
-    conveniences: values[13].split(',').map((x) => x.trim()),
+    conveniences: values[13].split(',').map((x) => x.trim()) as Convenience[],
     author: {
       name: values[14],
       email: values[15],
       profilePicture: values[16],
       password: values[17],
-      type: values[18],
-    } as User,
+      type: values[18] as UserType,
+    },
     location: {
       longitude: Number(values[19]),
       latitude: Number(values[20]),
     } as Coordinates
-  } as Offer;
+  };
 };
 
 export const importData = async (path: string, mongoUrl: string) => {

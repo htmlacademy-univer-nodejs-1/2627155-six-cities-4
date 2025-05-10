@@ -3,7 +3,7 @@ import got from 'got';
 import { Offer, OfferDTO, User, UserDto } from './types.js';
 import { getRandomArbitraryInt, getRandomInt } from '../libs/random/index.js';
 
-const getRandomizedUser = (user: User) => {
+const getRandomizedUser = (user: User): User => {
   const emailParts = user.email.split('@');
   const email = `${emailParts[0]}${getRandomInt()}@${emailParts[1]}`;
   return {
@@ -12,10 +12,10 @@ const getRandomizedUser = (user: User) => {
     profilePicture: user.profilePicture,
     password: user.password + getRandomInt(),
     type: getRandomInt() % 2 === 0 ? 'ordinary' : 'pro',
-  } as User;
+  };
 };
 
-const getRandomizedOffer = (offer: Offer) => ({
+const getRandomizedOffer = (offer: Offer): Offer => ({
   name: offer.name + getRandomInt(),
   description: offer.description,
   createdAt: offer.createdAt,
@@ -32,17 +32,17 @@ const getRandomizedOffer = (offer: Offer) => ({
   conveniences: offer.conveniences,
   author: getRandomizedUser(offer.author),
   location: offer.location,
-} as Offer);
+});
 
 
 const getUsers = async (url: string) => await got(`${url}/users`).json<UserDto[]>();
 
 const getOffers = async (url: string) => await got(`${url}/offers`).json<OfferDTO[]>();
 
-const mapOfferDtoIntoOffer = (offer: OfferDTO, users: UserDto[]) => ({
+const mapOfferDtoIntoOffer = (offer: OfferDTO, users: UserDto[]): Offer => ({
   ...offer,
   author: users.find((user) => user.id === offer.authorId) as User,
-} as Offer);
+});
 
 const mapOfferIntoTSV = (offer: Offer) => {
   const fields = [
